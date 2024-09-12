@@ -1,0 +1,102 @@
+<div class="container my-5">
+  <div class="header bg-dark text-center py-5 rounded-3 shadow-sm">
+    <img src="images/all2.webp" alt="All Products" class="mb-3" width="150px">
+    <h1 class="text-white fw-bold">All Products</h1>
+  </div>
+
+  <!-- Main Content Section with Sidebar -->
+  <div class="row mt-5">
+    <div class="col-lg-3 mb-4">
+      <div class="filter-sidebar p-3 shadow-sm rounded-3 bg-light">
+        <h4 class="fw-bold mb-4">Filter Results</h4>
+
+        <!-- Category Filter -->
+        <div class="mb-3">
+          <label for="categoryFilter" class="form-label">Category</label>
+          <select id="categoryFilter" class="form-select" (change)="loadData(search)" [(ngModel)]="categoryChoice">
+            <option value="">All Categories</option>
+            @for(category of categories;track category._id)
+            {
+              <option [value]="category._id">{{category.name}}</option>
+            }
+          </select>
+        </div>
+
+
+        <!-- Price Filter -->
+        <div class="mb-3">
+          <label for="priceRange" class="form-label">Price Range: ${{priceValue}}</label>
+          <input type="range" id="priceRange" class="form-range" min="1" max="100000" step="50" (change)="loadData(search)" [(ngModel)]="priceValue">
+          <div class="d-flex justify-content-between">
+            <span>$0</span>
+            <span>$100000</span>
+          </div>
+        </div>
+
+        <!-- Rating Filter -->
+        <div class="mb-3">
+          <label for="ratingFilter" class="form-label">Rating</label>
+          <select id="ratingFilter" class="form-select" (change)="loadData(search)" [(ngModel)]="ratingAverage">
+            <option value="-1">All Ratings</option>
+            <option value="4">&starf; & Up</option>
+            <option value="3">&starf;&starf;&starf; & Up</option>
+            <option value="2">&starf;&starf; & Up</option>
+            <option value="1">&starf; & Up</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Content Section -->
+    <div class="col-lg-9">
+      <!-- Search Bar -->
+      <div class="d-flex justify-content-center mb-4">
+        <input class="form-control w-75" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="search" #searchInput (change)="loadData(searchInput.value)">
+      </div>
+      <div class="content my-5 d-flex justify-content-center flex-wrap gap-4">
+        @for (product of products; track product._id) {
+          <div class="card border-0 shadow-lg" style="width: 18rem; border-radius: 15px;">
+            <div style="height: 250px; display: flex; align-items: center; justify-content: center;">
+              <img [src]="img+product.cover" class="card-img-top" alt="cover" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title text-dark fw-bold">{{product.name}}</h5>
+                <p class="card-text text-muted">{{product.description | description:15}}</p>
+                <p class="card-text text-primary fw-bold">Price: {{product.price | currency}}</p>
+                <p class="card-text text-warning">{{product.ratingAverage}} &star; - {{product.ratingCount}} reviews</p>
+              </div>
+              <div class="d-flex justify-content-between my-3">
+                <a [routerLink]="['/products', product._id]" class="btn btn-outline-primary w-100 me-2">See More</a>
+                <a (click)="addToCart(product._id)" class="btn btn-success w-100">Add To Cart</a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination Section -->
+      <ul class="pagination justify-content-center my-4">
+        @if(pagination.currentPage != 1) {
+          <li class="page-item">
+            <a class="page-link" (click)="changeData(pagination.prev!)">Previous</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="changeData(1)">1</a>
+          </li>
+        }
+        <li class="page-item">
+          <a class="page-link">{{pagination.currentPage}}</a>
+        </li>
+        @if(pagination.currentPage != pagination.totalPages) {
+          <li class="page-item">
+            <a class="page-link" (click)="changeData(pagination.totalPages!)">{{pagination.totalPages}}</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" (click)="changeData(pagination.next!)">Next</a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</div>

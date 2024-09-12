@@ -1,0 +1,77 @@
+<div class="container">
+  <div class="text-center my-5">
+    <h2 class="fw-bold">Order History</h2>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th scope="col">Products</th>
+          <th scope="col">Delivered</th>
+          <th scope="col">Paid</th>
+          <th scope="col">Payment Method</th>
+          <th scope="col">Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(order of orders; track order._id){
+        <tr>
+          <td>
+            @for(item of order.cartItems; track item._id){
+            <div class="d-flex align-items-center mb-2">
+              <img class="rounded mx-2" width="50" [src]="productImage + item?.product?.cover" [alt]="item?.product?.name">
+              <div class="ms-2">
+                <p class="mb-0">{{ item?.product?.name }}</p>
+                <small class="text-muted">Qty: {{ item.quantity }}</small>
+              </div>
+            </div>
+            }
+          </td>
+          <td>
+            <span class="badge rounded-pill text-bg-{{ order.isDelivered ? 'success' : 'warning' }}">
+              {{ order.isDelivered ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td>
+            <span class="badge rounded-pill text-bg-{{ order.isPaid ? 'success' : 'danger' }}">
+              {{ order.isPaid ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td>{{ order.paymentMethod }}</td>
+          <td class="fw-bold">{{ order.totalPrice | currency }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="d-flex justify-content-center mt-4">
+    <ul class="pagination">
+      @if(pagination.prev){
+      <li class="page-item">
+        <button (click)="changePage(pagination.prev)" class="page-link">Previous</button>
+      </li>
+      }
+      @if(pagination.currentPage !== 1){
+      <li class="page-item">
+        <button (click)="changePage(1)" class="page-link">1</button>
+      </li>
+      }
+      <li class="page-item active">
+        <button class="page-link">{{ pagination.currentPage }}</button>
+      </li>
+      @if(pagination.currentPage !== pagination.totalPages){
+      <li class="page-item">
+        <button (click)="changePage(pagination.totalPages!)" class="page-link">{{ pagination.totalPages }}</button>
+      </li>
+      }
+      @if(pagination.next){
+      <li class="page-item">
+        <button (click)="changePage(pagination.next)" class="page-link">Next</button>
+      </li>
+      }
+    </ul>
+  </div>
+</div>

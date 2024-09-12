@@ -1,0 +1,58 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light p-2 shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand text-primary fw-bold" href="#">Online Shop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link text-dark fw-semibold" routerLink="home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark fw-semibold" routerLink="products" routerLinkActive="active" ariaCurrentWhenActive="page">Products</a>
+        </li>
+      </ul>
+      <div class="d-flex align-items-center">
+        <ul class="navbar-nav mb-2 mb-lg-0">
+          @if(!login)
+          {
+            <li class="nav-item">
+              <a class="nav-link text-dark fw-semibold" routerLink="login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-dark fw-semibold" routerLink="signup">Signup</a>
+            </li>
+          }
+          @else
+          {
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-dark fw-semibold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                User Settings
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" routerLink="profile">Profile</a></li>
+                <li><a class="dropdown-item" routerLink="myOrders">My Orders</a></li>
+                <li><a class="dropdown-item" routerLink="myReviews">My Reviews</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item text-danger" (click)="logout()">Logout</button></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link position-relative mx-2 text-dark" routerLink="cart">
+                <i class="fas fa-shopping-cart"></i>
+
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link mx-2 text-dark" routerLink="wishlist">
+                <i class="fas fa-heart"></i>
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

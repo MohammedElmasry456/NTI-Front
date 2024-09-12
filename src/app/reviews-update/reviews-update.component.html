@@ -1,0 +1,28 @@
+<div class="container my-5 d-flex justify-content-center">
+  <div id="card">
+    <div id="card-content">
+      <div id="card-title">
+        <form [formGroup]="updateReviewForm" (ngSubmit)="updateReview(updateReviewForm)">
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Review</label>
+            <input type="email" formControlName="comment" class="form-control" id="exampleInputEmail1"
+              aria-describedby="emailHelp" [value]="review.comment">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Rating</label>
+            <input type="number" formControlName="rating" class="form-control" min="1" max="5"
+              id="exampleInputPassword1" [value]="review.rating">
+            <div class="text-danger my-1">
+              @if(updateReviewForm.get('rating')?.errors != null && updateReviewForm.get('rating')?.touched){
+                @if(updateReviewForm.get("rating")?.errors?.['min'] || updateReviewForm.get("rating")?.errors?.['max']){
+                  <p>Rating between 1,5</p>
+                }
+              }
+            </div>
+          </div>
+          <button type="submit" class="btn btn-danger" [disabled]="updateReviewForm.invalid">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

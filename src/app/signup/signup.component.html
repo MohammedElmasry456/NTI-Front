@@ -1,0 +1,104 @@
+<div class="mt-3 d-flex container mb-5 flex-row-reverse justify-content-around">
+  <div class="img-cover">
+    <img class="w-100" [src]="img" alt="phone" height="500px">
+  </div>
+  <div class="w-50 p-2 ms-5">
+    <div id="card">
+      <div id="card-content">
+        <div id="card-title">
+          <h2>Create Account</h2>
+          <div class="underline-title"></div>
+        </div>
+        <form [formGroup]="signupForm" (ngSubmit)="signup(signupForm)">
+          <label for="user-email" style="padding-top:13px">
+            &nbsp;Name
+          </label>
+          <div class="d1">
+            <input class="form-content" type="text" formControlName="name" />
+            <div class="form-border"></div>
+            <!-- ----------------------------- -->
+            <div class="text-danger mt-1 dd1">
+              @if(signupForm.get("name")?.errors != null&&signupForm.get("name")?.touched)
+              {
+              @if(signupForm.get("name")?.errors?.['required'])
+              {
+              <p>Name Required</p>
+              }@else if (signupForm.get("name")?.errors?.['minlength']||signupForm.get("name")?.errors?.['maxlength']) {
+              <p>Length between 2,50</p>
+              }
+              }
+            </div>
+            <!-- ----------------------------- -->
+          </div>
+          <label for="user-email" style="padding-top:13px">
+            &nbsp;Email
+          </label>
+          <div class="d1">
+            <input id="user-email" class="form-content" type="email" formControlName="email" />
+            <div class="form-border"></div>
+            <!-- ----------------------------- -->
+            <div class="text-danger mt-1 dd1">
+              @if(signupForm.get("email")?.errors != null&&signupForm.get("email")?.touched && emailError == '')
+              {
+              @if(signupForm.get("email")?.errors?.['required'])
+              {
+              <p>Email Required</p>
+              }@else if (signupForm.get("email")?.errors?.['email']) {
+              <p>Email Not Valid</p>
+              }
+
+              }
+              @if (emailError != '') {
+              <p>{{emailError}}</p>
+              }
+            </div>
+            <!-- ----------------------------- -->
+          </div>
+          <label for="user-password" style="padding-top:22px">&nbsp;Password
+          </label>
+          <div class="d2">
+            <input id="user-password" class="form-content" type="password" formControlName="password" />
+            <div class="form-border"></div>
+            <div class="text-danger mt-1 dd2">
+              @if(signupForm.get("password")?.errors != null&&signupForm.get("password")?.touched)
+              {
+              @if(signupForm.get("password")?.errors?.['required'])
+              {
+              <p>Password Required</p>
+              }@else if
+              (signupForm.get("password")?.errors?.['minlength']||signupForm.get("password")?.errors?.['maxlength']) {
+              <p>Length between 6,20</p>
+              }
+              }
+            </div>
+          </div>
+          <label for="user-password" style="padding-top:22px">&nbsp;confirmPassword
+          </label>
+          <div class="d2">
+            <input id="user-password" class="form-content" type="password" formControlName="confirmPassword" />
+            <div class="form-border"></div>
+            <div class="text-danger mt-1 dd2">
+              @if(signupForm.get("confirmPassword")?.errors != null&&signupForm.get("confirmPassword")?.touched
+              &&passwordError == '')
+              {
+              @if(signupForm.get("confirmPassword")?.errors?.['required'])
+              {
+              <p>confirmPassword Required</p>
+              }@else if
+              (signupForm.get("confirmPassword")?.errors?.['minlength']||signupForm.get("confirmPassword")?.errors?.['maxlength'])
+              {
+              <p>Length between 6,20</p>
+              }
+              }
+              @if (passwordError != '') {
+              <p>{{passwordError}}</p>
+              }
+            </div>
+          </div>
+          <input id="submit-btn" type="submit" value="Create" [disabled]="signupForm.invalid" />
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

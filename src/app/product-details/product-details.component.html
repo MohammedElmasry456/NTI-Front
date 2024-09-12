@@ -1,0 +1,88 @@
+<div class="container d-flex  flex-column  my-4">
+  <div class="photos text-center">
+    <div class="cover w-100">
+      <img [src]="img+product?.cover" [alt]="product?.name">
+    </div>
+    <div class="others d-flex flex-wrap justify-content-center gap-3">
+      @for(photo of product?.images;track photo)
+      {
+      <img [src]="img+photo" [alt]="product.name">
+      }
+
+    </div>
+  </div>
+
+  <div class="content my-5 w-100 d-flex justify-content-around ">
+
+    <div class="w-50">
+      <p>PRODUCT DETAILS</p>
+      <p>{{product.description}}</p>
+      <div>
+        <div class="bg-light p-3 mb-3"><i class="fa-regular fa-comment-dots text-primary"></i>Have a question about our
+          products at E-Store? Feel free to contact our representatives via live chat or email.</div>
+        <div class="delivery">
+          <h4><i class="fa-solid fa-truck"></i>Delivery done in 3 days from date of purchase</h4>
+          <p>Order now to get this product delivery</p>
+        </div>
+        <div class="deliveryOption">
+          <h4><i class="fa-solid fa-handshake"></i>Delivery options</h4>
+          <p>View delivery options here</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p style="font-weight: 800; font-size: large; color: rgb(48, 148, 219);">{{product?.subcategory?.name}}</p>
+      <h1>{{product?.name}}</h1>
+      <p style="font-weight: bold; font-size: 25px;">{{product.price|currency}}</p>
+      <p>(Additional tax may apply on checkout)</p>
+      <p style="font-weight: bold;font-size: 20px;">{{product.ratingAverage}} &star;</p>
+      <div class="dd d-flex justify-content-start m-4">
+        <a (click)="addToWishlist(product._id)" class="btn btn-primary mx-2">Add to Wishlist</a>
+        <a (click)="addToCart(product._id)" class="btn btn-success">Add To Cart</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-3">
+  <h2 class="text-center">Product Reviews</h2>
+  <hr class="my-3">
+  @for(review of product?.reviews; track review._id){
+  <div class="d-flex justify-content-around ">
+    <h4 style="width: 25%;">{{review?.user?.name}}</h4>
+    <p style="width: 35%;">{{review?.comment}} - {{review?.rating}}&star;</p>
+    <p style="width: 25%;">{{review?.createdAt|date}}</p>
+    <hr>
+  </div>
+
+  }
+
+  <div class="div w-100">
+    <div name="reviews">
+      <form [formGroup]="reviewForm" (ngSubmit)="addReview(product._id,reviewForm)">
+        <div class="form-floating">
+          <textarea class="form-control" formControlName="comment" placeholder="Leave a comment here"
+            id="floatingTextarea"></textarea>
+          <label for="floatingTextarea">Review</label>
+        </div>
+        <div class="mt-3 text-danger">
+          @if(reviewError!==''){ <label for="">{{reviewError}}</label> }
+        </div>
+        <div class="rating">
+          <input type="radio" formControlName="rating" id="star5" name="rating" value="5" />
+          <label class="star" for="star5" title="Awesome" aria-hidden="true"></label>
+          <input type="radio" formControlName="rating" id="star4" name="rating" value="4" />
+          <label class="star" for="star4" title="Great" aria-hidden="true"></label>
+          <input type="radio" formControlName="rating" id="star3" name="rating" value="3" />
+          <label class="star" for="star3" title="Very good" aria-hidden="true"></label>
+          <input type="radio" formControlName="rating" id="star2" name="rating" value="2" />
+          <label class="star" for="star2" title="Good" aria-hidden="true"></label>
+          <input type="radio" formControlName="rating" id="star1" name="rating" value="1" />
+          <label class="star" for="star1" title="Bad" aria-hidden="true"></label>
+          <button class="btn btn-success shadow mt-2 mx-3">Add Review</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,97 @@
+<div class="container my-5">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold">Your Cart</h2>
+    <button class="btn btn-outline-danger" (click)="clearCart()">Clear Cart</button>
+  </div>
+
+
+  @if(cartItems.length > 0){
+  <div class="row">
+
+    <div class="col-lg-8 mb-4">
+      @for(item of cartItems; track item._id){
+      <div class="card mb-3">
+        <div class="row g-0 ">
+          <div class="col-md-4">
+            <img [src]="imgDomain + item.product.cover" [alt]="item.product.name" class="img-fluid rounded-start" />
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ item.product.name }}</h5>
+              <p class="card-text"><strong>Price:</strong> {{ item.price | currency }}</p>
+              <p class="card-text"><strong>Subtotal:</strong> {{ item.price * item.quantity | currency }}</p>
+              <p class="card-text"><strong>Category:</strong> {{ item.product.category.name }}</p>
+              <p class="card-text"><strong>Subcategory:</strong> {{ item.product.subcategory.name }}</p>
+              <div class="d-flex align-items-center">
+                <button class="btn btn-danger btn-sm me-2" (click)="removeProductFromCart(item._id)">
+                  <i class="fa-solid fa-trash-can"></i> Remove
+                </button>
+                <div class="d-flex align-items-center">
+                  <button class="btn btn-secondary btn-sm" (click)="decreaseQuantity(item._id, item.quantity)">-</button>
+                  <span class="mx-2">{{ item.quantity }}</span>
+                  <button class="btn btn-secondary btn-sm" (click)="increaseQuantity(item._id, item.quantity)">+</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      }
+    </div>
+
+
+    <div class="col-lg-4">
+      <div class="card p-4 border-0 shadow-sm">
+        <h4 class="fw-bold mb-3">Cart Summary</h4>
+
+
+        <div class="d-flex justify-content-between mb-3">
+          <span class="text-muted">Subtotal:</span>
+          <span class="fw-bold">{{ cart.totalPrice | currency }}</span>
+        </div>
+
+
+        @if(cart.totalPriceAfterDiscount !== undefined){
+        <div class="d-flex justify-content-between mb-3">
+          <span class="text-muted">Subtotal After Discount:</span>
+          <span class="fw-bold">{{ cart.totalPriceAfterDiscount | currency }}</span>
+        </div>
+        }
+
+
+        <div class="d-flex justify-content-between mb-3">
+          <span class="text-muted">Tax Fees:</span>
+          <span class="fw-bold">{{ 100 | currency }}</span>
+        </div>
+
+
+        <div class="d-flex justify-content-between mb-4">
+          @if(cart.totalPriceAfterDiscount !== undefined){
+          <span class="text-muted">Total Price After Discount:</span>
+          <span class="fw-bold">{{ cart.totalPriceAfterDiscount + 100 | currency }}</span>
+          }@else{
+          <span class="text-muted">Total Price:</span>
+          <span class="fw-bold">{{ cart.totalPrice + 100 | currency }}</span>
+          }
+        </div>
+
+
+        <form [formGroup]="applyCouponForm" (ngSubmit)="applyCoupon(applyCouponForm)">
+          <div class="input-group mb-3">
+            <input type="text" formControlName="name" placeholder="Enter Coupon Code" class="form-control" />
+            <button [disabled]="applyCouponForm.invalid" class="btn btn-danger">Apply</button>
+          </div>
+          @if(couponError !== ''){
+          <p class="text-danger">{{ couponError }}</p>
+          }
+        </form>
+        <form [formGroup]="addressForm" (ngSubmit)="checkout(addressForm)">
+          <input type="text" formControlName="address" placeholder="Enter Address" class="form-control" />
+          <input id="submit-btn" type="submit" class="btn btn-primary w-100 mt-4" value="Checkout" [disabled]="addressForm.invalid" />
+      </form>
+
+      </div>
+    </div>
+  </div>
+  }
