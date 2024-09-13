@@ -20,10 +20,10 @@ export class ProductsService {
   {
     if(category == '')
     {
-      return this._HttpClient.get(`${this.hostName}${this.routeName}?limit=${limit}&page=${page}&sort=${sort}&price[lt]=${price}&ratingAverage[gt]=${ratingAverage}&search=${search}`);
+      return this._HttpClient.get(`${this.hostName}${this.routeName}?limit=${limit}&page=${page}&sort=${sort}&price[lte]=${price}&ratingAverage[gte]=${ratingAverage}&search=${search}`);
 
     }
-    return this._HttpClient.get(`${this.hostName}${this.routeName}?limit=${limit}&page=${page}&sort=${sort}&price[lt]=${price}&ratingAverage[gt]=${ratingAverage}&search=${search}&category=${category}`);
+    return this._HttpClient.get(`${this.hostName}${this.routeName}?limit=${limit}&page=${page}&sort=${sort}&price[lte]=${price}&ratingAverage[gte]=${ratingAverage}&search=${search}&category=${category}`);
 
   }
 
